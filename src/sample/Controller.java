@@ -33,12 +33,6 @@ public class Controller {
     @FXML
     private void initialize() {
         // Handle Button event.
-//        img.setImage( new Image(getClass().getResource("/assets/image/1.png").toExternalForm()));
-
-//        img = new ImageView();
-//        pageSelector.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 604, 1));
-//        pageSelector.setOnInputMethodTextChanged(event -> System.out.println(pageSelector.getValue()));
-//        pageSelector.increment();
         DB = new DBhelper();
         cbSura.getItems().addAll(DB.getSuraList());
 
