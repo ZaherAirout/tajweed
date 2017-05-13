@@ -7,15 +7,17 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class Controller {
     public ComboBox<Integer> cbAyaNumber;
     public ImageView img;
     public ComboBox<Integer> pageSelector;
+    public TreeView tresult;
     @FXML
     Button btnRun;
-    @FXML
-    TextArea taResult;
+
     @FXML
     TextArea lblAya;
     @FXML
@@ -52,8 +54,9 @@ public class Controller {
         cbSura.fireEvent(new ActionEvent());
         cbAyaNumber.fireEvent(new ActionEvent());
         btnRun.setOnAction((event) -> {
-            String result = Helper.CallJess(lblAya.getText(), cbSura.getSelectionModel().getSelectedIndex());
-            taResult.setText(result);
+            HashMap<String, HashMap<String, List<String>>> jessResult = Helper.CallJess(lblAya.getText(), cbSura.getSelectionModel().getSelectedIndex());
+            setResult(jessResult);
+
 
         });
         img.setImage(new Image("images/1.png"));
@@ -62,6 +65,26 @@ public class Controller {
             lblAya.setText(ayaByXY);
         });
 
+    }
+
+    private void setResult(HashMap<String, HashMap<String, List<String>>> jessResult) {
+        TreeItem root = new TreeItem("الأحكام المستخرجة");
+        for (String type : jessResult.keySet()) {
+            TreeItem typeNode = new TreeItem(type);
+            root.getChildren().add(typeNode);
+            HashMap<String, List<String>> stringListHashMap = jessResult.get(type);
+            for (String name : stringListHashMap.keySet()) {
+                TreeItem nameNode = new TreeItem(name);
+                typeNode.getChildren().add(nameNode);
+
+                List<String> strings = stringListHashMap.get(name);
+                for (String string : strings) {
+                    TreeItem leafNode = new TreeItem(string);
+                    nameNode.getChildren().add(leafNode);
+                }
+            }
+        }
+        tresult.setRoot(root);
     }
 
     private void setImage(Integer number) {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -7,8 +8,7 @@
 
 <GridPane alignment="center" hgap="10" minHeight="-Infinity" minWidth="-Infinity" vgap="10" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
     <children>
-      <ComboBox fx:id="pageSelector" prefHeight="25.0" prefWidth="99.0" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" />
-        <ImageView fx:id="img" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.rowSpan="2147483647">
+        <ImageView fx:id="img" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" GridPane.rowSpan="2147483647">
          <GridPane.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </GridPane.margin></ImageView>
@@ -20,9 +20,15 @@
                 <Label text="السورة" />
             </children>
         </HBox>
-        <TextArea fx:id="lblAya" nodeOrientation="RIGHT_TO_LEFT" prefHeight="30.0" prefWidth="250.0" promptText="أو قم بادخال الآية هنا" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-        <Button fx:id="btnRun" mnemonicParsing="false" text="Run" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-        <TextArea fx:id="taResult" nodeOrientation="RIGHT_TO_LEFT" prefHeight="400.0" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+        <TextArea fx:id="lblAya" nodeOrientation="RIGHT_TO_LEFT" prefHeight="30.0" prefWidth="250.0" promptText="أو قم بادخال الآية هنا" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <Button fx:id="btnRun" mnemonicParsing="false" text="Run" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+      <TreeView fx:id="tresult" nodeOrientation="RIGHT_TO_LEFT" prefHeight="400.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.rowSpan="2" />
+      <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <children>
+            <ComboBox fx:id="pageSelector" prefHeight="25.0" />
+            <Label text="أو اختر رقم الصفحة" />
+         </children>
+      </HBox>
     </children>
     <columnConstraints>
         <ColumnConstraints minWidth="200.0" />
@@ -33,6 +39,8 @@
         <RowConstraints />
         <RowConstraints />
         <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
     </rowConstraints>
    <padding>
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

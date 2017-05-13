@@ -19,7 +19,7 @@ public class Helper {
     return result;
     }
     //          JESS Functions PLEASE DON'T RENAME OR MOVE
-    public static String CallJess(String ayaStr, int ayaNum) {
+    public static HashMap<String, HashMap<String, List<String>>> CallJess(String ayaStr, int ayaNum) {
         Rete engine = new Rete();
 
         HashMap<String, HashMap<String, List<String>>> map = new HashMap<>();
@@ -85,10 +85,11 @@ public class Helper {
             e.printStackTrace();
         }
 
-        return parseHashMap(map);
+//        return parseHashMap(map);
+        return map;
     }
 
-    private static String parseHashMap(HashMap<String, HashMap<String, List<String>>> map) {
+    public static String parseHashMap(HashMap<String, HashMap<String, List<String>>> map) {
 
         StringBuilder sb = new StringBuilder();
 
