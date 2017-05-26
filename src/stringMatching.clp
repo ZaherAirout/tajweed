@@ -21,27 +21,27 @@
 
 (deffacts test-facts
     ;    noon rules
-    (category (name "รอ฿วใ วแไๆไ")(prefix ไ ไ๚ ๐ ๒ ๑))
-    ; วฯÛวใ ศÛไ๘ษ
-    (secondType (category-id "รอ฿วใ วแไๆไ") (name "ลฯÛวใ ศÛไษ")(postfix ํ ไ ใ ๆ))
-    ; วฯÛวใ ศแว ศÛไ๘ษ
-    (secondType (category-id "รอ฿วใ วแไๆไ") (name "ลฯÛวใ ศแว Ûไษ")(postfix แ ั))
-    ; วูๅวั
-    (secondType (category-id "รอ฿วใ วแไๆไ") (name "ลูๅวั")(postfix ว ล ร ๅ ฺ อ Û ฮ))
-    ; วÞแวศ
-    (secondType (category-id "รอ฿วใ วแไๆไ") (name "ลÞแวศ")(postfix ศ))
-    ; วฮÝวม
-    (secondType (category-id "รอ฿วใ วแไๆไ") (name "ลฮÝวม")(postfix ี ะ ห ฬ ิ Þ ำ ฿ ึ ู า ส ฯ ุ Ý))
+    (category (name "ุฃุญูุงู… ุงูููู")(prefix ู ูู’ ู ู ู))
+    ; ุงุฏุบุงู… ุจุบูู‘ุฉ
+    (secondType (category-id "ุฃุญูุงู… ุงูููู") (name "ุฅุฏุบุงู… ุจุบูุฉ")(postfix ู ู ู… ู))
+    ; ุงุฏุบุงู… ุจูุง ุจุบูู‘ุฉ
+    (secondType (category-id "ุฃุญูุงู… ุงูููู") (name "ุฅุฏุบุงู… ุจูุง ุบูุฉ")(postfix ู ุฑ))
+    ; ุงุธูุงุฑ
+    (secondType (category-id "ุฃุญูุงู… ุงูููู") (name "ุฅุธูุงุฑ")(postfix ุง ุฅ ุฃ ู ุน ุญ ุบ ุฎ))
+    ; ุงููุงุจ
+    (secondType (category-id "ุฃุญูุงู… ุงูููู") (name "ุฅููุงุจ")(postfix ุจ))
+    ; ุงุฎูุงุก
+    (secondType (category-id "ุฃุญูุงู… ุงูููู") (name "ุฅุฎูุงุก")(postfix ุต ุฐ ุซ ุฌ ุด ู ุณ ู ุถ ุธ ุฒ ุช ุฏ ุท ู))
     
     ;    meem rules
-    (category (name "รอ฿วใ วแใํใ")(prefix ใ ใ๚))
+    (category (name "ุฃุญูุงู… ุงูู…ูู…")(prefix ู… ู…ู’))
     
-    ; วฮÝวม ิÝๆํ
-    (secondType (category-id "รอ฿วใ วแใํใ") (name "ลฮÝวม ิÝๆํ")(postfix ศ))
-    ; วฯÛวใ ิÝๆํ
-    (secondType (category-id "รอ฿วใ วแใํใ") (name "ลฯÛวใ ิÝๆํ")(postfix ใ))
-    ; วูๅวั ิÝๆํ
-    (secondType (category-id "รอ฿วใ วแใํใ") (name "ลูๅวั ิÝๆํ")(postfix ว ส ห ฬ อ ฮ ฯ ะ ั า ำ ิ ี ึ ุ ู ฺ Û Ý Þ ฿ แ ไ ๅ ๆ ํ))
+    ; ุงุฎูุงุก ุดููู
+    (secondType (category-id "ุฃุญูุงู… ุงูู…ูู…") (name "ุฅุฎูุงุก ุดููู")(postfix ุจ))
+    ; ุงุฏุบุงู… ุดููู
+    (secondType (category-id "ุฃุญูุงู… ุงูู…ูู…") (name "ุฅุฏุบุงู… ุดููู")(postfix ู…))
+    ; ุงุธูุงุฑ ุดููู
+    (secondType (category-id "ุฃุญูุงู… ุงูู…ูู…") (name "ุฅุธูุงุฑ ุดููู")(postfix ุง ุช ุซ ุฌ ุญ ุฎ ุฏ ุฐ ุฑ ุฒ ุณ ุด ุต ุถ ุท ุธ ุน ุบ ู ู ู ู ู ู ู ู))
     
     
     ;; NOTE::  TBC for all rules
