@@ -27,7 +27,7 @@
     ; «œ€«„ »·« »€‰¯…
     (secondType (category-id "√Õﬂ«„ «·‰Ê‰") (name "≈œ€«„ »·« €‰…")(postfix · —))
     ; «ŸÂ«—
-    (secondType (category-id "√Õﬂ«„ «·‰Ê‰") (name "≈ŸÂ«—")(postfix √ Â ⁄ Õ € Œ))
+    (secondType (category-id "√Õﬂ«„ «·‰Ê‰") (name "≈ŸÂ«—")(postfix « ≈ √ Â ⁄ Õ € Œ))
     ; «ﬁ·«»
     (secondType (category-id "√Õﬂ«„ «·‰Ê‰") (name "≈ﬁ·«»")(postfix »))
     ; «Œ›«¡
