@@ -8,6 +8,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 public class Main extends Application {
 
     @Override
@@ -15,7 +17,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("Tajweed Rules");
         primaryStage.setMaximized(true);
-        primaryStage.setScene(new Scene(root, 500, 700));
+        primaryStage.setScene(new Scene(root, 800, 800));
         primaryStage.show();
     }
 

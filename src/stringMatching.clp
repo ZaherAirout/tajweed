@@ -1,3 +1,4 @@
+(import sample.Helper)
 (deftemplate aya
     (slot id)
     (slot content(type STRING))
@@ -5,10 +6,13 @@
 (deftemplate category
     (slot name)
     (multislot prefix(type STRING))
+    (multislot postfix(type STRING))
+    (slot direction)
     )
 (deftemplate secondType
     (slot category-id)
     (slot name)
+    (multislot prefix(type STRING))
     (multislot postfix(type STRING))
     )
 (deftemplate TR
@@ -32,23 +36,26 @@
     (secondType (category-id "أحكام النون") (name "إقلاب")(postfix ب))
     ; اخفاء
     (secondType (category-id "أحكام النون") (name "إخفاء")(postfix ص ذ ث ج ش ق س ك ض ظ ز ت د ط ف))
-    
+
     ;    meem rules
     (category (name "أحكام الميم")(prefix م مْ))
-    
+
     ; اخفاء شفوي
     (secondType (category-id "أحكام الميم") (name "إخفاء شفوي")(postfix ب))
     ; ادغام شفوي
     (secondType (category-id "أحكام الميم") (name "إدغام شفوي")(postfix م))
     ; اظهار شفوي
     (secondType (category-id "أحكام الميم") (name "إظهار شفوي")(postfix ا ت ث ج ح خ د ذ ر ز س ش ص ض ط ظ ع غ ف ق ك ل ن ه و ي))
-    
-    
+
+;    (aya(id 0)(content "بسم اللَّهِ الرَّحْمنِ الرَّحِيمِ"))
+
     ;; NOTE::  TBC for all rules
-    
+
+    (category (name "لام لفظ الجلالة")(postfix  اللَّه الله)(direction back))
+    (secondType (category-id "لام لفظ الجلالة") (name "تفخيم ")(prefix َ ُ  ""))
+    (secondType (category-id "لام لفظ الجلالة") (name "ترقيق ")(prefix ِ))
 
     )
-(import sample.Helper)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;																;
@@ -57,47 +64,75 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; 		One word Rule
 (defrule one-word
-    (category
-        (name ?id)
-        (prefix $? ?pre $?))
-    
-    (secondType
-        (category-id ?id)
-        (name ?name)
-        (postfix $? ?post $?))
-    
+    (or (and
+            (category
+                (name ?id)
+                (prefix $? ?pre $?))
+
+            (secondType
+                (category-id ?id)
+                (name ?name)
+                (postfix $? ?post $?))
+            )
+
+        (and
+            (category
+                (name ?id)
+                (direction back)
+                (postfix $? ?post $?))
+            (secondType
+                (category-id ?id)
+                (name ?name)
+                (prefix $? ?pre $?))
+            ))
     ?r<-(aya(content ?str))
     (test (str-index (str-cat ?pre ?post) ?str))
-    
+
     =>
     (bind ?z (str-index (str-cat ?pre ?post) ?str))
-  ;  (printout t "in one word :"crlf ?name " at char " ?post  " at index " ?z crlf)
-   ; (printout t "in words : "(call Helper getWord ?str ?z) crlf )
+    ;  (printout t "in one word :"crlf ?name " at char " ?post  " at index " ?z crlf)
+    ; (printout t "in words : "(call Helper getWord ?str ?z) crlf )
     (assert (TR (type ?id)(name ?name)(aya-id ?r.id)(occurrence one-word)(position ?z)))
 
-    (bind ?str (call Helper insertAt ?str ?z))
+    (bind ?str (call Helper insertAt ?str (+ ?z (- (str-length ?post) 1))))
     (modify ?r (content ?str))
     )
 (defrule two-words
-    (category
-        (name ?id)
-        (prefix $? ?pre $?))
-    
-    (secondType
-        (category-id ?id)
-        (name ?name)
-        (postfix $? ?post $?))
-    
+
+    (or
+        (and
+            (category
+                (name ?id)
+                (prefix $? ?pre $?))
+
+            (secondType
+                (category-id ?id)
+                (name ?name)
+                (postfix $? ?post $?))
+            )
+
+        (and
+            (category
+                (name ?id)
+                (direction back)
+                (postfix $? ?post $?))
+            (secondType
+                (category-id ?id)
+                (name ?name)
+                (prefix $? ?pre $?))
+            ))
     ?r<-(aya(content ?str))
     (test (str-index (str-cat ?pre " " ?post) ?str))
-    
+
     =>
-    
+
     (bind ?z (str-index (str-cat ?pre " " ?post) ?str))
     ;(printout t "in two words "  ?name " at char " ?post  " at index " ?z crlf)
     ;(printout t "in words : "(call Helper getWords ?str ?z) crlf )
     (assert (TR (type ?id)(name ?name)(aya-id ?r.id)(occurrence two-word)(position ?z)))
-    (bind ?str (call Helper insertAt ?str ?z))
+    (bind ?str (call Helper insertAt ?str (+ ?z (- (str-length ?post) 1))))
     (modify ?r (content ?str))
     )
 (reset)
+;(run)
+;(facts)

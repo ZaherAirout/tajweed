@@ -6,6 +6,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,10 +33,20 @@ public class Controller {
 
     @FXML
     private void initialize() {
+        try {
+            PushbackReader pushbackReader = new PushbackReader(new InputStreamReader(new FileInputStream("src/stringMatching.clp"), "utf-8"));
+        } catch (FileNotFoundException e) {
+//            showMessage("cannot find file src");
+
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+//        JUST for testing
+//        showMessage(System.getProperty("user.dir"));
         // Handle Button event.
         DB = new DBhelper();
         cbSura.getItems().addAll(DB.getSuraList());
-
         pageSelector.getItems().addAll(Helper.Range(1, 604));
         pageSelector.setOnAction(event -> setImage(pageSelector.getValue()));
         pageSelector.getSelectionModel().select(0);
@@ -45,8 +56,6 @@ public class Controller {
         cbSura.setOnAction(event1 -> {
             ayaAdapter();
         });
-        cbSura.fireEvent(new ActionEvent());
-        cbAyaNumber.fireEvent(new ActionEvent());
         btnRun.setOnAction((event) -> {
             HashMap<String, HashMap<String, List<String>>> jessResult = Helper.CallJess(lblAya.getText(), cbSura.getSelectionModel().getSelectedIndex());
             setResult(jessResult);
@@ -58,6 +67,9 @@ public class Controller {
             String ayaByXY = DB.getAyaByXY(pageSelector.getValue(), event.getX(), event.getY());
             lblAya.setText(ayaByXY);
         });
+        cbSura.fireEvent(new ActionEvent());
+        cbAyaNumber.fireEvent(new ActionEvent());
+        btnRun.fireEvent(new ActionEvent());
 
     }
 

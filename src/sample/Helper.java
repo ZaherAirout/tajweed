@@ -120,7 +120,7 @@ public class Helper {
     }
 
     public static String getWords(String s, int index) {
-        return split(s, index - 1, s.charAt(index + 1) == ' ' ? index + 2 : index + 1);
+        return split(s, s.charAt(index - 1) == ' ' ? index - 2 : index - 1, s.charAt(index + 1) == ' ' ? index + 2 : index + 1);
     }
 
     public static String split(String s, int beginning, int end) {
@@ -137,7 +137,7 @@ public class Helper {
         }
         return s.substring(beginning, end);
     }
-
+    //Used in JESS
     public static String insertAt(String s, int index) {
         return s.substring(0, index - 1) + "." + s.substring(index, s.length());
     }

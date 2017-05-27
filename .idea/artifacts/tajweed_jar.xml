@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="tajweed:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/tajweed_jar</output-path>
+    <root id="archive" name="tajweed.jar">
+      <element id="module-output" name="tajweed" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/sqlite-jdbc-3.16.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/jess.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/jsr94.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
