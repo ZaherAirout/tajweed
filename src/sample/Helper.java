@@ -2,22 +2,20 @@ package sample;
 
 import jess.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Zaher Airout on 2017/5/8.
  */
 public class Helper {
 
-    public static ArrayList<Integer> Range (int from,int to){
-        ArrayList<Integer> result  = new ArrayList<>();
-        for (int i= from ; i<= to ; i++)
+    public static ArrayList<Integer> Range(int from, int to) {
+        ArrayList<Integer> result = new ArrayList<>();
+        for (int i = from; i <= to; i++)
             result.add(i);
-    return result;
+        return result;
     }
+
     //          JESS Functions PLEASE DON'T RENAME OR MOVE
     public static HashMap<String, HashMap<String, List<String>>> CallJess(String ayaStr, int ayaNum) {
         Rete engine = new Rete();
@@ -137,9 +135,18 @@ public class Helper {
         }
         return s.substring(beginning, end);
     }
+
     //Used in JESS
     public static String insertAt(String s, int index) {
         return s.substring(0, index - 1) + "." + s.substring(index, s.length());
     }
+    public static char[] getLetters(String ignored, String alphabet) {
 
+
+        alphabet = alphabet.replaceAll(" ", "");
+        for (Character c : ignored.toCharArray()) {
+            alphabet = alphabet.replace(c.toString(), "");
+        }
+        return alphabet.toCharArray();
+    }
 }

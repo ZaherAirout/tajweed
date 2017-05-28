@@ -26,9 +26,9 @@
                 <Label text="السورة" />
             </children>
         </HBox>
-        <TextArea fx:id="lblAya" nodeOrientation="RIGHT_TO_LEFT" prefHeight="30.0" prefWidth="250.0" promptText="أو قم بادخال الآية هنا" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <TextArea fx:id="lblAya" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="50.0" prefWidth="300.0" promptText="أو قم بادخال الآية هنا" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
         <Button fx:id="btnRun" mnemonicParsing="false" text="Run" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-      <TreeView fx:id="tresult" showRoot="false" nodeOrientation="RIGHT_TO_LEFT" prefHeight="400.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.rowSpan="2" />
+      <TreeView fx:id="tresult" nodeOrientation="RIGHT_TO_LEFT" prefHeight="400.0" prefWidth="200.0" showRoot="false" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.rowSpan="2" />
       <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
             <ComboBox fx:id="pageSelector" prefHeight="25.0" />
