@@ -51,7 +51,6 @@
     (secondType (category-id "أحكام الميم") (name "إظهار شفوي")(postfix ا ت ث ج ح خ د ذ ر ز س ش ص ض ط ظ ع غ ف ق ك ل ن ه و ي))
 
 
-    ;; NOTE::  TBC for all rules
     ; أحكام لام لفظ الجلالة
     (category (name "لام لفظ الجلالة")(postfix  اللَّه الله)(direction back))
     (secondType (category-id "لام لفظ الجلالة") (name "تفخيم ")(prefix َ ُ  ""))
@@ -62,20 +61,25 @@
     (secondType (category-id "احكام الراء") (name "تفخيم ") (postfix َ ُ َّ ُّ )(prefix َ ُ ))
     (secondType (category-id "احكام الراء") (name "ترقيق ")(postfix ِ ِّ )(prefix ِ ))
 
-     ; أحكام النون والميم المشددة
+    ; أحكام النون والميم المشددة
     (category (name "أحكام النون والميم المشددة")(postfix  ّ)(direction back))
     (secondType (category-id "أحكام النون والميم المشددة") (name "الميم ")(prefix م))
     (secondType (category-id "أحكام النون والميم المشددة") (name "النون")(prefix ن))
 
     ;
 
-	; المدود
-    (category (name "المدود")(prefix  َا ُو  ِي )(direction ternary))
+    ; المدود
+    (category (name "المدود")(prefix  َا ُو  ِي )(postfix  َا ُو  ِي )(direction ternary))
     (secondType (category-id "المدود")(name "طبيعي")(postfix (call Helper getLetters "ءأ" ?*alphabet*)) )
-    (secondType (category-id "المدود")(name "منفصل/متصل")(postfix ء أ) (infix ""))
+    (secondType (category-id "المدود")(name "بدل")(prefix أ ؤ ء ئ )(infix ""))
+    (secondType (category-id "المدود")(name "منفصل/متصل")(postfix ئ ؤ ء أ) (infix ""))
     (secondType (category-id "المدود")(name "لازم كلمي مثقّل")(postfix ّ) (infix (call Helper getLetters "" ?*alphabet*)))
     (secondType (category-id "المدود")(name "لازم ")(postfix ْ) (infix (call Helper getLetters "" ?*alphabet*)))
 
+    ;قلقلة
+    (category (name "قلقة")(prefix ق ط ب ج د)(direction ternary))
+    (secondType (category-id  "قلقة")(name "كبرى")(postfix  "َ " "ً " "ُ " "ٌ " "ِ " "ٍ " "ْ ") )
+    (secondType (category-id  "قلقة")(name "صغرى")(infix ْ)(postfix  (call Helper getLetters "" ?*alphabet*)) )
     )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -120,7 +124,7 @@
     (modify ?r (content ?str))
     )
 (defrule two-words
-(declare (salience 0))
+    (declare (salience 0))
     (or
         (and
             (category
@@ -158,18 +162,34 @@
 (defrule ternary_one_word
 
     ?r<-(aya(content ?str))
+    (or
+        (and
+            (category
+                (name ?id)
+                (direction ternary)
+                (prefix $? ?pre $?))
+            (secondType
+                (category-id ?id)
+                (name ?name)
+                (postfix $? ?post $?)
+                (infix $? ?in $?))
+            (test (str-index (str-cat ?pre ?in ?post) ?str))
+            )
+        (and
+            (category
+                (name ?id)
+                (direction ternary)
+                (postfix $? ?post $?))
+            (secondType
+                (category-id ?id)
+                (name ?name)
+                (prefix $? ?pre $?)
+                (infix $? ?in $?))
+            (test (str-index (str-cat ?pre ?in ?post) ?str))
 
-    (category
-        (name ?id)
-        (direction ternary)
-        (prefix $? ?pre $?))
-    (secondType
-        (category-id ?id)
-        (name ?name)
-        (postfix $? ?post $?)
-        (infix $? ?in $?))
+            )
+        )
 
-    (test (str-index (str-cat ?pre ?in ?post) ?str))
     =>
     (bind ?z (str-index (str-cat ?pre ?in ?post) ?str))
     ;(printout t "in two words "  ?name " at char " ?post  " at index " ?z crlf)
@@ -202,6 +222,7 @@
     (bind ?str (call Helper insertAt ?str (+ ?z (- (str-length ?post) 1))))
     (modify ?r (content ?str))
     )
+
 (defrule two_words_splitter
 
     ?r<-(TR (type ?id)
@@ -224,7 +245,7 @@
     =>
     (assert (TR (type ?id)(name "متصل")(aya-id ?aya-id)(occurrence one-word)(position ?z)))
     (retract ?r)
-)
+    )
 (reset)
 ;(run)
 ;(facts)

@@ -19,6 +19,14 @@ public class Helper {
     //          JESS Functions PLEASE DON'T RENAME OR MOVE
     public static HashMap<String, HashMap<String, List<String>>> CallJess(String ayaStr, int ayaNum) {
         Rete engine = new Rete();
+//        for Last character
+        ayaStr += " ";
+//      to fix hidden alef (أ) issue
+
+        String input = ayaStr.replace("هَٰؤُلَاء","هَاؤلَاء")
+                             .replace("أُولَٰئِ","أُلَٰائِ")
+                             .replace("آ","أَا")
+                             .replace("الَّذِي"," لَّذِي");
 
         HashMap<String, HashMap<String, List<String>>> map = new HashMap<>();
 
@@ -27,7 +35,7 @@ public class Helper {
             engine.batch("stringMatching.clp");
             Fact f = new Fact("aya", engine);
             f.setSlotValue("id", new Value(ayaNum, RU.INTEGER));
-            f.setSlotValue("content", new Value(ayaStr, RU.SYMBOL));
+            f.setSlotValue("content", new Value(input, RU.SYMBOL));
             engine.assertFact(f);
             engine.run();
             Iterator list = engine.listFacts();
