@@ -31,6 +31,7 @@ public class Controller {
     @FXML
     Button btnAdd;
 
+    int CurrentPageNumber = -1;
 
     @FXML
     private void initialize() {
@@ -41,7 +42,11 @@ public class Controller {
         DB = new DBhelper();
         cbSura.getItems().addAll(DB.getSuraList());
         pageSelector.getItems().addAll(Helper.Range(1, 604));
-        pageSelector.setOnAction(event -> setImage(pageSelector.getValue()));
+
+        pageSelector.setOnAction(event -> {
+            setImage(pageSelector.getValue());
+
+        });
         pageSelector.getSelectionModel().select(0);
         cbSura.getSelectionModel().select(0);
 
@@ -94,9 +99,10 @@ public class Controller {
     }
 
     private void setImage(Integer number) {
-        System.out.println(img.getImage());
-        if (img.getImage()==null || pageSelector.getSelectionModel().getSelectedIndex()+1 != number)
+
+        if (CurrentPageNumber != number)
             try {
+                CurrentPageNumber = number;
                 img.setImage(new Image(new FileInputStream("./images/" + number + ".png")));
             } catch (Exception e) {
                 showMessage("Please Check images directory");
@@ -123,7 +129,7 @@ public class Controller {
         selected = (selected == 0 ? 1 : selected);
 
         String aya = DB.getAyaByNumber(suraId, selected);
-        setImage(DB.getSafhaByNumber(suraId, selected));
+        pageSelector.getSelectionModel().select(DB.getSafhaByNumber(suraId, selected));
         lblAya.setText(aya);
 
     }
