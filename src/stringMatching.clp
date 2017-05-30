@@ -26,7 +26,20 @@
 
 (defglobal ?*alphabet* ="ا أ ب ت ث ج ح خ د ذ ر ز س ش ص ض ط ظ ع غ ف ق ك ل م ن ه و ي ة")
 
-(deffacts test-facts
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;																;
+;						Tajweed Rules							;
+;																;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(deffacts Tajweed-Rules
+
+    ;قلقلة
+    (category (name "قلقة")(prefix ق ط ب ج د)(direction ternary))
+    (secondType (category-id  "قلقة")(name "كبرى")(postfix  "ّ ") )
+    (secondType (category-id  "قلقة")(name "وسطى")(postfix  "َ " "ً " "ُ " "ٌ " "ِ " "ٍ " "ْ ") )
+    (secondType (category-id  "قلقة")(name "صغرى")(infix ْ)(postfix  (call Helper getLetters "" ?*alphabet*)) )
+
     ;    noon rules
     (category (name "أحكام النون")(prefix ن نْ ً ٍ ٌ))
     ; ادغام بغنّة
@@ -54,7 +67,7 @@
     ; أحكام لام لفظ الجلالة
     (category (name "لام لفظ الجلالة")(postfix  اللَّه الله)(direction back))
     (secondType (category-id "لام لفظ الجلالة") (name "تفخيم ")(prefix َ ُ  ""))
-    (secondType (category-id "لام لفظ الجلالة") (name "ترقيق ")(prefix ِ))
+    (secondType (category-id "لام لفظ الجلالة") (name "ترقيق ")(prefix ِ ))
 
     ; أحكام الراء
     (category (name "احكام الراء")(prefix ر)(postfix  رْ )(direction back))
@@ -66,25 +79,18 @@
     (secondType (category-id "أحكام النون والميم المشددة") (name "الميم ")(prefix م))
     (secondType (category-id "أحكام النون والميم المشددة") (name "النون")(prefix ن))
 
-    ;
-
     ; المدود
     (category (name "المدود")(prefix  َا ُو  ِي )(postfix  َا ُو  ِي )(direction ternary))
     (secondType (category-id "المدود")(name "طبيعي")(postfix (call Helper getLetters "ءأ" ?*alphabet*)) )
     (secondType (category-id "المدود")(name "بدل")(prefix أ ؤ ء ئ )(infix ""))
-    (secondType (category-id "المدود")(name "منفصل/متصل")(postfix ئ ؤ ء أ) (infix ""))
+    (secondType (category-id "المدود")(name "منفصل/متصل")(postfix ئ ؤ ء أ))
     (secondType (category-id "المدود")(name "لازم كلمي مثقّل")(postfix ّ) (infix (call Helper getLetters "" ?*alphabet*)))
     (secondType (category-id "المدود")(name "لازم ")(postfix ْ) (infix (call Helper getLetters "" ?*alphabet*)))
-
-    ;قلقلة
-    (category (name "قلقة")(prefix ق ط ب ج د)(direction ternary))
-    (secondType (category-id  "قلقة")(name "كبرى")(postfix  "َ " "ً " "ُ " "ٌ " "ِ " "ٍ " "ْ ") )
-    (secondType (category-id  "قلقة")(name "صغرى")(infix ْ)(postfix  (call Helper getLetters "" ?*alphabet*)) )
     )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;																;
-;						Tjweed Rules							;
+;				  Tajweed Matching Rules						;
 ;																;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; 		One word Rule

@@ -1,12 +1,8 @@
 package sample;
 
 
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.sql.*;
 import java.util.*;
-import java.util.stream.Stream;
 
 /**
  * Created by Zaher Airout on 2017/5/9.
@@ -45,25 +41,28 @@ public class DBhelper {
         return result;
     }
 
-    public int getSuraAyatCount(int id) {
-        ArrayList result = new ArrayList();
+    public ArrayList getSuraAyatCount(int id) {
+        ArrayList<Integer> result = new ArrayList();
         try {
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);  // set timeout to 30 sec
             ResultSet rs = statement.executeQuery("select id,ayaCount from sura WHERE id=" + id);
-            while (rs.next()) {
-                return rs.getInt("ayaCount");
-            }
+            result.add(rs.getInt("ayaCount"));
+            Statement st = connection.createStatement();
+            st.setQueryTimeout(30);  // set timeout to 30 sec
+            rs = st.executeQuery("select sura,safha from ayat WHERE sura=" + id);
+            result.add(rs.getInt("safha"));
+
         } catch (SQLException e) {
 //             if the error message is "out of memory",
 //             it probably means no database file is found
+            System.out.println("GetSurafailed");
             e.printStackTrace();
         }
-        return -1;
+        return result;
     }
 
-    public String getAyaNumber(int surahId, int selected) {
-        ArrayList result = new ArrayList();
+    public String getAyaByNumber(int surahId, int selected) {
         try {
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);  // set timeout to 30 sec
@@ -82,7 +81,7 @@ public class DBhelper {
         try {
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);  // set timeout to 30 sec
-            ResultSet rs = statement.executeQuery("select * from amaken_hafs where safha="+pageNumber +" and y+" + padding + " >" + y);
+            ResultSet rs = statement.executeQuery("select * from amaken_hafs where safha=" + pageNumber + " and y+" + padding + " >" + y);
             int id = 0;
             while (rs.next()) {
                 int ayaY = rs.getInt("y");
@@ -117,5 +116,17 @@ public class DBhelper {
         }
         return "not found";
 
+    }
+
+    public Integer getSafhaByNumber(Integer suraId, int selected) {
+        try {
+            Statement statement = connection.createStatement();
+            statement.setQueryTimeout(30);  // set timeout to 30 sec
+            ResultSet rs = statement.executeQuery("SELECT sura,aya,safha FROM ayat where sura=" + suraId + " and aya=" + selected);
+            return rs.getInt("safha");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 1;
     }
 }

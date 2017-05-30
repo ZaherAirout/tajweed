@@ -5,8 +5,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import jess.JessException;
 
-import java.io.*;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,15 +34,7 @@ public class Controller {
 
     @FXML
     private void initialize() {
-        try {
-            PushbackReader pushbackReader = new PushbackReader(new InputStreamReader(new FileInputStream("src/stringMatching.clp"), "utf-8"));
-        } catch (FileNotFoundException e) {
-//            showMessage("cannot find file src");
 
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
 //        JUST for testing
 //        showMessage(System.getProperty("user.dir"));
         // Handle Button event.
@@ -57,15 +50,22 @@ public class Controller {
             ayaAdapter();
         });
         btnRun.setOnAction((event) -> {
-            HashMap<String, HashMap<String, List<String>>> jessResult = Helper.CallJess(lblAya.getText(), cbSura.getSelectionModel().getSelectedIndex());
+            HashMap<String, HashMap<String, List<String>>> jessResult = null;
+            try {
+                jessResult = Helper.CallJess(lblAya.getText(), cbSura.getSelectionModel().getSelectedIndex());
+            } catch (JessException e) {
+                showMessage(e.getMessage());
+                e.printStackTrace();
+            }
             setResult(jessResult);
 
 
         });
-        img.setImage(new Image("images/1.png"));
+        pageSelector.fireEvent(new ActionEvent());
         img.setOnMouseClicked(event -> {
             String ayaByXY = DB.getAyaByXY(pageSelector.getValue(), event.getX(), event.getY());
             lblAya.setText(ayaByXY);
+            btnRun.fireEvent(new ActionEvent());
         });
         cbSura.fireEvent(new ActionEvent());
         cbAyaNumber.fireEvent(new ActionEvent());
@@ -94,32 +94,38 @@ public class Controller {
     }
 
     private void setImage(Integer number) {
-        img.setImage(new Image("images/" + number + ".png"));
+        System.out.println(img.getImage());
+        if (img.getImage()==null || pageSelector.getSelectionModel().getSelectedIndex()+1 != number)
+            try {
+                img.setImage(new Image(new FileInputStream("./images/" + number + ".png")));
+            } catch (Exception e) {
+                showMessage("Please Check images directory");
+                e.printStackTrace();
+            }
     }
 
 
     private void ayaAdapter() {
-        int suraAyatCount = DB.getSuraAyatCount(cbSura.getSelectionModel().getSelectedIndex() + 1);
-        ArrayList<Integer> integers = new ArrayList<>();
-        for (int i = 1; i <= suraAyatCount; i++)
-            integers.add(i);
+
+        ArrayList<Integer> result = DB.getSuraAyatCount(cbSura.getSelectionModel().getSelectedIndex() + 1);
+
         cbAyaNumber.getItems().clear();
-        cbAyaNumber.getItems().addAll(integers);
+        cbAyaNumber.getItems().addAll(Helper.Range(1, result.get(0)));
         cbAyaNumber.getSelectionModel().select(0);
+        pageSelector.getSelectionModel().select(result.get(1));
+
     }
 
     private void addAya(ActionEvent event) {
         // Button was clicked, do something...
-
         Integer suraId = cbSura.getSelectionModel().getSelectedIndex() + 1;
-        int suraAyatCount = DB.getSuraAyatCount(suraId);
         int selected = cbAyaNumber.getSelectionModel().getSelectedIndex() + 1;
-        if (suraAyatCount >= selected) {
-            String aya = DB.getAyaNumber(suraId, selected);
-            lblAya.setText(aya);
-        } else {
-            showMessage("Please enter a Number less than" + suraAyatCount);
-        }
+        selected = (selected == 0 ? 1 : selected);
+
+        String aya = DB.getAyaByNumber(suraId, selected);
+        setImage(DB.getSafhaByNumber(suraId, selected));
+        lblAya.setText(aya);
+
     }
 
     private void showMessage(String message) {

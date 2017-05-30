@@ -2,6 +2,7 @@ package sample;
 
 import jess.*;
 
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
@@ -17,66 +18,66 @@ public class Helper {
     }
 
     //          JESS Functions PLEASE DON'T RENAME OR MOVE
-    public static HashMap<String, HashMap<String, List<String>>> CallJess(String ayaStr, int ayaNum) {
+    public static HashMap<String, HashMap<String, List<String>>> CallJess(String ayaStr, int ayaNum) throws JessException {
         Rete engine = new Rete();
 //        for Last character
         ayaStr += " ";
 //      to fix hidden alef (أ) issue
 
-        String input = ayaStr.replace("هَٰؤُلَاء","هَاؤلَاء")
-                             .replace("أُولَٰئِ","أُلَٰائِ")
-                             .replace("آ","أَا")
-                             .replace("الَّذِي"," لَّذِي");
+        ayaStr = ayaStr.replace("هَٰؤُلَاء", "هَاؤلَاء")
+                .replace("أُولَٰئِ", "أُلَائِ")
+                .replace("آ", "أَا");
+//                .replace("الَّذِي", " لَّذِي");
 
         HashMap<String, HashMap<String, List<String>>> map = new HashMap<>();
 
         StringBuilder sb = new StringBuilder();
-        try {
-            engine.batch("stringMatching.clp");
-            Fact f = new Fact("aya", engine);
-            f.setSlotValue("id", new Value(ayaNum, RU.INTEGER));
-            f.setSlotValue("content", new Value(input, RU.SYMBOL));
-            engine.assertFact(f);
-            engine.run();
-            Iterator list = engine.listFacts();
-            while (list.hasNext()) {
-                Fact x = (Fact) list.next();
-                if (x.getName().compareTo("MAIN::TR") == 0) {
-                    String occurrence = x.getSlotValue("occurrence").toString();
-                    String type = x.getSlotValue("type").toString().replace("\"", "");
-                    String name = x.getSlotValue("name").toString().replace("\"", "");
-                    String position = x.getSlotValue("position").toString();
-                    String words = occurrence.compareTo("two-word") == 0 ?
-                            Helper.getWords(ayaStr, Integer.valueOf(position)) :
-                            Helper.getWord(ayaStr, Integer.valueOf(position));
+        Batch.batch("stringMatching.clp", StandardCharsets.UTF_8.toString(),engine);
 
-                    HashMap<String, List<String>> m;
-                    List<String> l;
-                    if (map.get(type) == null) {
-                        m = new HashMap<>();
-                        if (m.get(name) == null) {
-                            l = new ArrayList<>();
-                            l.add(words);
-                            m.put(name, l);
-                        } else {
-                            l = m.get(name);
-                            l.add(words);
-                        }
+        Fact f = new Fact("aya", engine);
+        f.setSlotValue("id", new Value(ayaNum, RU.INTEGER));
+        f.setSlotValue("content", new Value(ayaStr, RU.SYMBOL));
+        engine.assertFact(f);
+        engine.run();
+        Iterator list = engine.listFacts();
+        while (list.hasNext()) {
+            Fact x = (Fact) list.next();
+            if (x.getName().compareTo("MAIN::TR") == 0) {
+                String occurrence = x.getSlotValue("occurrence").toString();
+                String type = x.getSlotValue("type").toString().replace("\"", "");
+                String name = x.getSlotValue("name").toString().replace("\"", "");
+                String position = x.getSlotValue("position").toString();
+                String words = occurrence.compareTo("two-word") == 0 ?
+                        Helper.getWords(ayaStr, Integer.valueOf(position)) :
+                        Helper.getWord(ayaStr, Integer.valueOf(position));
 
-                        map.put(type, m);
-
+                HashMap<String, List<String>> m;
+                List<String> l;
+                if (map.get(type) == null) {
+                    m = new HashMap<>();
+                    if (m.get(name) == null) {
+                        l = new ArrayList<>();
+                        l.add(words);
+                        m.put(name, l);
                     } else {
-
-                        m = map.get(type);
-                        if (m.get(name) == null) {
-                            l = new ArrayList<>();
-                            l.add(words);
-                            m.put(name, l);
-                        } else {
-                            l = m.get(name);
-                            l.add(words);
-                        }
+                        l = m.get(name);
+                        l.add(words);
                     }
+
+                    map.put(type, m);
+
+                } else {
+
+                    m = map.get(type);
+                    if (m.get(name) == null) {
+                        l = new ArrayList<>();
+                        l.add(words);
+                        m.put(name, l);
+                    } else {
+                        l = m.get(name);
+                        l.add(words);
+                    }
+                }
 
 
                     /*sb.append("======================= \n");
@@ -84,11 +85,7 @@ public class Helper {
                     sb.append("name is  = " + name + "\n");
                     sb.append("occurrence is  = " + occurrence + "\n");
                     sb.append("at is  = " + words + "\n");*/
-                }
             }
-        } catch (JessException e) {
-            System.out.println("JESS ERROR");
-            e.printStackTrace();
         }
 
 //        return parseHashMap(map);
@@ -148,6 +145,7 @@ public class Helper {
     public static String insertAt(String s, int index) {
         return s.substring(0, index - 1) + "." + s.substring(index, s.length());
     }
+
     public static char[] getLetters(String ignored, String alphabet) {
 
 
