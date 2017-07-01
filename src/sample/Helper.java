@@ -26,14 +26,13 @@ public class Helper {
 
         ayaStr = ayaStr.replace("هَٰؤُلَاء", "هَاؤلَاء")
                 .replace("أُولَٰئِ", "أُلَائِ")
+                .replace("الم", "الفلَامْمِيمْ")
                 .replace("آ", "أَا");
 //                .replace("الَّذِي", " لَّذِي");
 
         HashMap<String, HashMap<String, List<String>>> map = new HashMap<>();
 
-        StringBuilder sb = new StringBuilder();
-        Batch.batch("stringMatching.clp", StandardCharsets.UTF_8.toString(),engine);
-
+        Batch.batch("stringMatching.clp", StandardCharsets.UTF_8.toString(), engine);
         Fact f = new Fact("aya", engine);
         f.setSlotValue("id", new Value(ayaNum, RU.INTEGER));
         f.setSlotValue("content", new Value(ayaStr, RU.SYMBOL));
@@ -51,6 +50,10 @@ public class Helper {
                         Helper.getWords(ayaStr, Integer.valueOf(position)) :
                         Helper.getWord(ayaStr, Integer.valueOf(position));
 
+                words = words.replace("هَاؤلَاء", "هَٰؤُلَاء")
+                        .replace("أُلَائِ", "أُولَٰئِ")
+                        .replace("الفلَامْمِيمْ", "الم")
+                        .replace("أَا", "آ");
                 HashMap<String, List<String>> m;
                 List<String> l;
                 if (map.get(type) == null) {

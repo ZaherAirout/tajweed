@@ -157,7 +157,6 @@
     (test (str-index (str-cat ?pre " " ?post) ?str))
 
     =>
-
     (bind ?z (str-index (str-cat ?pre " " ?post) ?str))
     ;(printout t "in two words "  ?name " at char " ?post  " at index " ?z crlf)
     ;(printout t "in words : "(call Helper getWords ?str ?z) crlf )
