@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import jess.JessException;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
@@ -55,11 +54,9 @@ public class Controller {
             HashMap<String, HashMap<String, List<String>>> jessResult = null;
             try {
                 jessResult = ahkamController.CallJess(lblAya.getText());
-            } catch (JessException e) {
+            } catch (Exception e) {
                 showMessage(e.getMessage());
                 e.printStackTrace();
-            } catch (Exception e) {
-
             }
             setResult(jessResult);
 
