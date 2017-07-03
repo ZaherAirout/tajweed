@@ -1,17 +1,17 @@
-package sample;
+package Tajweed;
 
 
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
 
 /**
  * Created by Zaher Airout on 2017/5/9.
  */
 
-public class DBhelper {
+class AyatDatabase {
     private Connection connection;
 
-    public DBhelper() {
+    AyatDatabase() {
         try {
             this.connection = DriverManager.getConnection("jdbc:sqlite:ayat.ayt");
         } catch (SQLException e) {
@@ -20,16 +20,14 @@ public class DBhelper {
 
     }
 
-    public ArrayList<String> getSuraList() {
+    ArrayList<String> getSurahList() {
         ArrayList result = new ArrayList();
         try {
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);  // set timeout to 30 sec
             ResultSet rs = statement.executeQuery("select id,name from sura");
             while (rs.next()) {
-                int id = rs.getInt("id");
                 String name = rs.getString("name");
-//                System.out.println("name = " + name);
                 result.add(name);
             }
         } catch (SQLException e) {
@@ -41,16 +39,16 @@ public class DBhelper {
         return result;
     }
 
-    public ArrayList getSuraAyatCount(int id) {
-        ArrayList<Integer> result = new ArrayList();
+    ArrayList getAyatCount(int surahId) {
+        ArrayList result = new ArrayList();
         try {
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);  // set timeout to 30 sec
-            ResultSet rs = statement.executeQuery("select id,ayaCount from sura WHERE id=" + id);
+            ResultSet rs = statement.executeQuery("select id,ayaCount from sura WHERE id=" + surahId);
             result.add(rs.getInt("ayaCount"));
             Statement st = connection.createStatement();
             st.setQueryTimeout(30);  // set timeout to 30 sec
-            rs = st.executeQuery("select sura,safha from ayat WHERE sura=" + id);
+            rs = st.executeQuery("select sura,safha from ayat WHERE sura=" + surahId);
             result.add(rs.getInt("safha"));
 
         } catch (SQLException e) {
@@ -62,7 +60,7 @@ public class DBhelper {
         return result;
     }
 
-    public String getAyaByNumber(int surahId, int selected) {
+    String getAyaByNumber(int surahId, int selected) {
         try {
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);  // set timeout to 30 sec
@@ -75,9 +73,8 @@ public class DBhelper {
     }
 
 
-    public String getAyaByXY(Integer pageNumber, double x, double y) {
+    String getAyaByXY(Integer pageNumber, double x, double y) {
         int padding = 8;
-        //        select * from amaken_hafs where safha=1 and y < 325+8
         try {
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);  // set timeout to 30 sec
@@ -86,14 +83,11 @@ public class DBhelper {
             while (rs.next()) {
                 int ayaY = rs.getInt("y");
                 id = rs.getInt("id");
-//                System.out.println("ayay" + ayaY + " y" + y);
                 if (Math.abs(ayaY - y) <= padding) { // same Row
-//                    System.out.println("same row checking");
                     int ayaX = rs.getInt("x");
                     if (ayaX > x)
                         continue;
                 }
-//                System.out.println(id);
                 return getAyaById(id);
             }
         } catch (SQLException e) {
@@ -118,11 +112,11 @@ public class DBhelper {
 
     }
 
-    public Integer getSafhaByNumber(Integer suraId, int selected) {
+    Integer getPageByNumber(Integer surahId, int selected) {
         try {
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);  // set timeout to 30 sec
-            ResultSet rs = statement.executeQuery("SELECT sura,aya,safha FROM ayat where sura=" + suraId + " and aya=" + selected);
+            ResultSet rs = statement.executeQuery("SELECT sura,aya,safha FROM ayat where sura=" + surahId + " and aya=" + selected);
             return rs.getInt("safha");
         } catch (SQLException e) {
             e.printStackTrace();

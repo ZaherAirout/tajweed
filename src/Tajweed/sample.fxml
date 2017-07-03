@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-
-<GridPane alignment="center" hgap="10" minHeight="-Infinity" minWidth="-Infinity" vgap="10" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<?import javafx.scene.layout.*?>
+<GridPane xmlns:fx="http://javafx.com/fxml/1" alignment="center" hgap="10" minHeight="-Infinity" minWidth="-Infinity"
+          vgap="10" xmlns="http://javafx.com/javafx/8.0.112" fx:controller="Tajweed.Controller">
     <children>
-        <ImageView fx:id="img" fitHeight="672.0" fitWidth="456.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" GridPane.rowSpan="2147483647">
+        <ImageView fx:id="imageView" fitHeight="672.0" fitWidth="456.0" pickOnBounds="true" preserveRatio="true"
+                   GridPane.rowIndex="2" GridPane.rowSpan="2147483647">
          <GridPane.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </GridPane.margin></ImageView>
@@ -22,13 +16,14 @@
         <HBox alignment="CENTER" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
             <children>
                 <ComboBox fx:id="cbAyaNumber" />
-                <ComboBox fx:id="cbSura" prefHeight="25.0" prefWidth="99.0" />
+                <ComboBox fx:id="cbSurah" prefHeight="25.0" prefWidth="99.0"/>
                 <Label text="السورة" />
             </children>
         </HBox>
         <TextArea fx:id="lblAya" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="50.0" prefWidth="300.0" promptText="أو قم بادخال الآية هنا" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
         <Button fx:id="btnRun" mnemonicParsing="false" text="Run" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-      <TreeView fx:id="tresult" nodeOrientation="RIGHT_TO_LEFT" prefHeight="400.0" prefWidth="200.0" showRoot="false" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.rowSpan="2" />
+        <TreeView fx:id="resultTreeView" nodeOrientation="RIGHT_TO_LEFT" prefHeight="400.0" prefWidth="200.0"
+                  showRoot="false" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.rowSpan="2"/>
       <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
             <ComboBox fx:id="pageSelector" prefHeight="25.0" />

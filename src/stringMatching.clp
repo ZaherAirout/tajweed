@@ -1,4 +1,4 @@
-(import sample.Helper)
+(import Tajweed.AhkamController)
 (deftemplate aya
     (slot id)
     (slot content(type STRING))
@@ -38,7 +38,7 @@
     (category (name "قلقة")(prefix ق ط ب ج د)(direction ternary))
     (secondType (category-id  "قلقة")(name "كبرى")(postfix  "ّ ") )
     (secondType (category-id  "قلقة")(name "وسطى")(postfix  "َ " "ً " "ُ " "ٌ " "ِ " "ٍ " "ْ ") )
-    (secondType (category-id  "قلقة")(name "صغرى")(infix ْ)(postfix  (call Helper getLetters "" ?*alphabet*)) )
+    (secondType (category-id  "قلقة")(name "صغرى")(infix ْ)(postfix  (call AhkamController getLetters "" ?*alphabet*)) )
 
     ;    noon rules
     (category (name "أحكام النون")(prefix ن نْ ً ٍ ٌ))
@@ -81,11 +81,11 @@
 
     ; المدود
     (category (name "المدود")(prefix  َا ُو  ِي )(postfix  َا ُو  ِي )(direction ternary))
-    (secondType (category-id "المدود")(name "طبيعي")(postfix (call Helper getLetters "ءأ" ?*alphabet*)) )
+    (secondType (category-id "المدود")(name "طبيعي")(postfix (call AhkamController getLetters "ءأ" ?*alphabet*)) )
     (secondType (category-id "المدود")(name "بدل")(prefix أ ؤ ء ئ )(infix ""))
     (secondType (category-id "المدود")(name "منفصل/متصل")(postfix ئ ؤ ء أ))
-    (secondType (category-id "المدود")(name "لازم كلمي مثقّل")(postfix ّ) (infix (call Helper getLetters "" ?*alphabet*)))
-    (secondType (category-id "المدود")(name "لازم ")(postfix ْ) (infix (call Helper getLetters "" ?*alphabet*)))
+    (secondType (category-id "المدود")(name "لازم كلمي مثقّل")(postfix ّ) (infix (call AhkamController getLetters "" ?*alphabet*)))
+    (secondType (category-id "المدود")(name "لازم ")(postfix ْ) (infix (call AhkamController getLetters "" ?*alphabet*)))
     )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -123,10 +123,10 @@
     =>
     (bind ?z (str-index (str-cat ?pre ?post) ?str))
     ;  (printout t "in one word :"crlf ?name " at char " ?post  " at index " ?z crlf)
-    ; (printout t "in words : "(call Helper getWord ?str ?z) crlf )
+    ; (printout t "in words : "(call AhkamController getWord ?str ?z) crlf )
     (assert (TR (type ?id)(name ?name)(aya-id ?r.id)(occurrence one-word)(position ?z)))
 
-    (bind ?str (call Helper insertAt ?str (+ ?z (-  (str-length ?post) 1))))
+    (bind ?str (call AhkamController insertAt ?str (+ ?z (-  (str-length ?post) 1))))
     (modify ?r (content ?str))
     )
 (defrule two-words
@@ -159,9 +159,9 @@
     =>
     (bind ?z (str-index (str-cat ?pre " " ?post) ?str))
     ;(printout t "in two words "  ?name " at char " ?post  " at index " ?z crlf)
-    ;(printout t "in words : "(call Helper getWords ?str ?z) crlf )
+    ;(printout t "in words : "(call AhkamController getWords ?str ?z) crlf )
     (assert (TR (type ?id)(name ?name)(aya-id ?r.id)(occurrence two-word)(position ?z)))
-    (bind ?str (call Helper insertAt ?str (+ ?z (- (str-length ?post) 1))))
+    (bind ?str (call AhkamController insertAt ?str (+ ?z (- (str-length ?post) 1))))
     (modify ?r (content ?str))
     )
 (defrule ternary_one_word
@@ -198,9 +198,9 @@
     =>
     (bind ?z (str-index (str-cat ?pre ?in ?post) ?str))
     ;(printout t "in two words "  ?name " at char " ?post  " at index " ?z crlf)
-    ;(printout t "in words : "(call Helper getWords ?str ?z) crlf )
+    ;(printout t "in words : "(call AhkamController getWords ?str ?z) crlf )
     (assert (TR (type ?id)(name ?name)(aya-id ?r.id)(occurrence two-word)(position ?z)))
-    (bind ?str (call Helper insertAt ?str (+ ?z (- (str-length ?post) 1))))
+    (bind ?str (call AhkamController insertAt ?str (+ ?z (- (str-length ?post) 1))))
     (modify ?r (content ?str))
     )
 
@@ -222,9 +222,9 @@
     =>
     (bind ?z (str-index (str-cat ?pre " " ?in ?post) ?str))
     ;(printout t "in two words "  ?name " at char " ?post  " at index " ?z crlf)
-    ;(printout t "in words : "(call Helper getWords ?str ?z) crlf )
+    ;(printout t "in words : "(call AhkamController getWords ?str ?z) crlf )
     (assert (TR (type ?id)(name ?name)(aya-id ?r.id)(occurrence two-word)(position ?z)))
-    (bind ?str (call Helper insertAt ?str (+ ?z (- (str-length ?post) 1))))
+    (bind ?str (call AhkamController insertAt ?str (+ ?z (- (str-length ?post) 1))))
     (modify ?r (content ?str))
     )
 
