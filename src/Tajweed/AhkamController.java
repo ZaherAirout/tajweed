@@ -52,7 +52,7 @@ public class AhkamController {
     }
 
     //JESS Functions PLEASE DON'T RENAME OR MOVE
-    HashMap<String, HashMap<String, List<String>>> CallJess(String ayaStr) throws JessException {
+    HashMap<String, HashMap<String, List<String>>> ParseAya(String ayaStr) throws JessException {
 
         int ayaNum = 0;
 //        for Last character

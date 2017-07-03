@@ -51,14 +51,14 @@ public class Controller {
         cbAyaNumber.setOnAction(this::addAya);
         cbSurah.setOnAction(event1 -> ayaAdapter());
         btnRun.setOnAction((event) -> {
-            HashMap<String, HashMap<String, List<String>>> jessResult = null;
+            HashMap<String, HashMap<String, List<String>>> result = null;
             try {
-                jessResult = ahkamController.CallJess(lblAya.getText());
+                result = ahkamController.ParseAya(lblAya.getText());
             } catch (Exception e) {
                 showMessage(e.getMessage());
                 e.printStackTrace();
             }
-            setResult(jessResult);
+            setResult(result);
 
 
         });
