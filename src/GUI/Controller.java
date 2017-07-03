@@ -1,5 +1,7 @@
-package Tajweed;
+package GUI;
 
+import Tajweed.AhkamController;
+import Tajweed.AyatDatabase;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;

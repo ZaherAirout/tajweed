@@ -8,10 +8,10 @@ import java.util.ArrayList;
  * Created by Zaher Airout on 2017/5/9.
  */
 
-class AyatDatabase {
+public class AyatDatabase {
     private Connection connection;
 
-    AyatDatabase() {
+    public AyatDatabase() {
         try {
             this.connection = DriverManager.getConnection("jdbc:sqlite:ayat.ayt");
         } catch (SQLException e) {
@@ -20,7 +20,7 @@ class AyatDatabase {
 
     }
 
-    ArrayList<String> getSurahList() {
+    public ArrayList<String> getSurahList() {
         ArrayList result = new ArrayList();
         try {
             Statement statement = connection.createStatement();
@@ -39,7 +39,7 @@ class AyatDatabase {
         return result;
     }
 
-    ArrayList getAyatCount(int surahId) {
+    public ArrayList getAyatCount(int surahId) {
         ArrayList result = new ArrayList();
         try {
             Statement statement = connection.createStatement();
@@ -60,7 +60,7 @@ class AyatDatabase {
         return result;
     }
 
-    String getAyaByNumber(int surahId, int selected) {
+    public String getAyaByNumber(int surahId, int selected) {
         try {
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);  // set timeout to 30 sec
@@ -73,7 +73,7 @@ class AyatDatabase {
     }
 
 
-    String getAyaByXY(Integer pageNumber, double x, double y) {
+    public String getAyaByXY(Integer pageNumber, double x, double y) {
         int padding = 8;
         try {
             Statement statement = connection.createStatement();
@@ -112,7 +112,7 @@ class AyatDatabase {
 
     }
 
-    Integer getPageByNumber(Integer surahId, int selected) {
+    public Integer getPageByNumber(Integer surahId, int selected) {
         try {
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);  // set timeout to 30 sec
