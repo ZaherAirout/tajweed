@@ -1,4 +1,4 @@
-(import Tajweed.AhkamController)
+(import Ahkam.AhkamController)
 (deftemplate aya
     (slot id)
     (slot content(type STRING))
@@ -28,11 +28,11 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;																;
-;						Tajweed Rules							;
+;						Ahkam Rules							;
 ;																;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(deffacts Tajweed-Rules
+(deffacts Ahkam-Rules
 
     ;قلقلة
     (category (name "قلقة")(prefix ق ط ب ج د)(direction ternary))
@@ -90,7 +90,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;																;
-;				  Tajweed Matching Rules						;
+;				  Ahkam Matching Rules						;
 ;																;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; 		One word Rule

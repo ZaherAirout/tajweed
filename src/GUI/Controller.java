@@ -1,7 +1,8 @@
 package GUI;
 
-import Tajweed.AhkamController;
-import Tajweed.AyatDatabase;
+import Ahkam.AhkamController;
+import Ahkam.AyatDatabase;
+import Tajweed.TajweedController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -29,6 +30,7 @@ public class Controller {
 
 
     private AhkamController ahkamController = new AhkamController();
+    private TajweedController trainingController = new TajweedController();
     //    Database connection
     private AyatDatabase ayatDatabase = new AyatDatabase();
 
@@ -55,6 +57,7 @@ public class Controller {
         btnRun.setOnAction((event) -> {
             HashMap<String, HashMap<String, List<String>>> result = null;
             try {
+                trainingController.Execute();
                 result = ahkamController.ParseAya(lblAya.getText());
             } catch (Exception e) {
                 showMessage(e.getMessage());
